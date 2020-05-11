@@ -18,6 +18,13 @@ export class HomePage {
   ) { }
 
   ionViewWillEnter() {
+    if (this.network.type === 'none') {
+      this.presentToast('You Are Not Connected To Network');
+    } else if (this.network.type === 'wifi') {
+      this.presentToast('You Are Using Wi-fi Network');
+    } else if (this.network.type === '4g' || this.network.type === '3g' || this.network.type === '2g') {
+      this.presentToast('You Are Using Mobile Data');
+    }
     // watch network for a connection
     this.connectSubscription = this.network.onConnect().subscribe(() => {
       this.presentToast('Network Connected!');
@@ -27,7 +34,7 @@ export class HomePage {
       setTimeout(() => {
         if (this.network.type === 'wifi') {
           this.presentToast('You Are Using Wi-fi Network');
-        } else if ( this.network.type === '4g') {
+        } else if (this.network.type === '4g' || this.network.type === '3g' || this.network.type === '2g') {
           this.presentToast('You Are Using Mobile Data');
         }
       }, 3000);
