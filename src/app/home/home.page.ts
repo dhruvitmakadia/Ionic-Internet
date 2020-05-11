@@ -26,7 +26,9 @@ export class HomePage {
       // prior to doing any api requests as well.
       setTimeout(() => {
         if (this.network.type === 'wifi') {
-          this.presentToast('Network Connected To Wi-fi');
+          this.presentToast('You Are Using Wi-fi Network');
+        } else if ( this.network.type === '4g') {
+          this.presentToast('You Are Using Mobile Data');
         }
       }, 3000);
     });
@@ -40,7 +42,8 @@ export class HomePage {
   async presentToast(msg: string) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
+      position: 'middle',
     });
     toast.present();
   }
