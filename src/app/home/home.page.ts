@@ -69,7 +69,7 @@ export class HomePage {
     this.browser = this.iab.create('https://www.google.com/', '_blank', { clearcache: 'yes' });
     this.browser.on('loadstop').subscribe((event) => {
       this.browser.executeScript({ code: 'document.cookie;' }).then((cookie) => {
-        alert(cookie);
+        console.log(cookie);
       });
     });
   }
