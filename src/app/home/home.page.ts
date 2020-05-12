@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Network } from '@ionic-native/network/ngx';
 import { ToastController } from '@ionic/angular';
+import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +12,12 @@ export class HomePage {
 
   connectSubscription: any;
   disconnectSubscription: any;
+  browser: InAppBrowserObject;
 
   constructor(
     private network: Network,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private iab: InAppBrowser
   ) { }
 
   ionViewWillEnter() {
@@ -60,5 +63,14 @@ export class HomePage {
     this.connectSubscription.unsubscribe();
     // stop disconnect watch
     this.disconnectSubscription.unsubscribe();
+  }
+
+  openBrowser() {
+    this.browser = this.iab.create('https://www.google.com/', '_blank', { clearcache: 'yes' });
+    this.browser.on('loadstop').subscribe((event) => {
+      this.browser.executeScript({ code: 'document.cookie;' }).then((cookie) => {
+        alert(cookie);
+      });
+    });
   }
 }
